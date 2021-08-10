@@ -139,4 +139,14 @@ export class UserService {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
         }
     }
+
+    async search(key: user){
+        try {
+            const check = await this.userRepo.query("select * from employee.user where name LIKE '%"+ key.name +"%'")
+            if (!check) return { statusCode: 404, message: "Quản lý không tồn tại trong hệ thống !" };
+            return { statusCode: 200, check }
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
+        }
+    }
 }

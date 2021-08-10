@@ -39,4 +39,9 @@ export class UserController {
     deleteUser(@Param() params) {
       return this.service.delete(params.id);
     }
+
+    @Post('search')
+    search(@Body() body) {
+      return this.service.search(body);
+    }
 }
