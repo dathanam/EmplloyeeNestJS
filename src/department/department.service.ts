@@ -63,7 +63,7 @@ export class DepartmentService {
         try {
             const check = await this.departmentRepo.query("select * from employee.department where name LIKE '%"+ key.name +"%'")
             if (!check) return { statusCode: 404, message: "Quản lý không tồn tại trong hệ thống !" };
-            return { statusCode: 200, check }
+            return { statusCode: 200, check } 
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
         }

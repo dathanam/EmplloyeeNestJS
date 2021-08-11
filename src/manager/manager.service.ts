@@ -49,7 +49,7 @@ export class ManagerService {
     async delete(id): Promise<any> {
         try {
             const check = await this.managerRepo.findOne({ id: id })
-            if (!check) return { statusCode: 404, message: "Nhân viên không tồn tại trong hệ thống !" };
+            if (!check) return { statusCode: 404, message: "Quản lý không tồn tại trong hệ thống !" };
             await this.managerRepo.delete(id);
             return { statusCode: 200, message: "Xóa thành công !" }
         } catch (error) {
