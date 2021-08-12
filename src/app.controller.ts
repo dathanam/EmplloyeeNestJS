@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards, Body  } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Body, Param, Res  } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
@@ -19,5 +19,10 @@ export class AppController {
   @Post('auth/login')
   async login(@Body() body) {
     return this.authService.login(body);
+  }
+
+  @Get(':photo')
+  serverImage(@Param('photo') photo, @Res() res): Promise<any> {
+      return res.sendFile(photo, { root: 'uploads' })
   }
 }
