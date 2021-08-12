@@ -7,6 +7,7 @@ import { ManagerModule } from './manager/manager.module';
 import { JobtitleModule } from './jobtitle/jobtitle.module';
 import { DepartmentModule } from './department/department.module';
 import { EmployeeModule } from './employee/employee.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { EmployeeModule } from './employee/employee.module';
     ManagerModule,
     JobtitleModule,
     DepartmentModule,
-    EmployeeModule
+    EmployeeModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

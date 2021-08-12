@@ -2,12 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { user } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DeleteResult } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
 
 var randomstring = require("randomstring");
-const code = randomstring.generate(7);
-
+let code = randomstring.generate(7);
 const nodemailer = require('nodemailer');
 
 @Injectable()
@@ -15,38 +12,7 @@ export class UserService {
     constructor(
         @InjectRepository(user)
         private readonly userRepo: Repository<user>,
-        private jwtService: JwtService
     ) { }
-
-    async validateUser(username: string, pass: string): Promise<any> {
-        const user = await this.userRepo.findOne(username);
-        if (user && user.password === pass) {
-          const { password, ...result } = user;
-          return result;
-        }
-        return null;
-      }
-
-    async login(dataUser: user) {
-        try {
-            const userFind = await this.userRepo.findOne({ username: dataUser.username });
-            if (!userFind){
-                return { statusCode: 404, message: "Không tìm thấy tài khoản" }
-            }else{
-                if (userFind.password === dataUser.password) {
-                    const payload = { username: userFind.username, email: userFind.email, role: userFind.role, loginFrist: userFind.loginfirst }
-                    return {
-                        accessToken: this.jwtService.sign(payload, { expiresIn: 60 * 60 }),
-                        expiresIn: 60 * 60
-                    }
-                }else{
-                    return { statusCode: 404, message: "Sai thông tin đăng nhập" }
-                }
-            }          
-        } catch (error) {
-            throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
-        }
-    }
 
     async findAll(): Promise<user[]> {
         return await this.userRepo.find();
@@ -54,6 +20,10 @@ export class UserService {
 
     async findOne(id: number): Promise<user> {
         return await this.userRepo.findOne(id)
+    }
+
+    async findUser(username: string): Promise<user> {
+        return await this.userRepo.findOne({ username: username });
     }
 
     async sendEmail(email: string): Promise<any> {
@@ -89,7 +59,7 @@ export class UserService {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
         }
     }
-
+    
     async create(dataUser: user): Promise<any> {
         try {
             const check = await this.userRepo.findOne({ email: dataUser.email })

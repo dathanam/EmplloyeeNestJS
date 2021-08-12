@@ -1,20 +1,19 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service'
 import {user} from './user.entity';
-import { JwtAuthGuard } from './local-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 export class UserController {
     constructor(private readonly service: UserService) {}
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard('jwt'))
     @Get()
     findAll(): Promise<user[]> {
       return this.service.findAll()
     }
   
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard('jwt'))
     @Get(':id')
     get(@Param() params) {
       return this.service.findOne(params.id);
@@ -25,10 +24,10 @@ export class UserController {
       return this.service.create(body);
     }
 
-    @Post('login')
-    login(@Body() body) {
-      return this.service.login(body);
-    }
+    // @Post('login')
+    // login(@Body() body) {
+    //   return this.service.login(body);
+    // }
 
     @Put()
     update(@Body() data) {
