@@ -21,8 +21,8 @@ export class AppController {
     return this.authService.login(body);
   }
 
-  @Get(':photo')
+  @Get('uploads:photo')
   serverImage(@Param('photo') photo, @Res() res): Promise<any> {
-      return res.sendFile(photo, { root: 'uploads' })
+      return res.readFile(photo, { root: 'uploads' })
   }
 }

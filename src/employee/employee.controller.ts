@@ -28,7 +28,7 @@ export class EmployeeController {
     @ApiFile()
     @UseInterceptors(FileInterceptor('avata', multerOptions))
     create(@Body() body, @UploadedFile() file: Express.Multer.File) {
-      return this.service.create(body, file.path);
+        return this.service.create(body, file.path);
     }
 
     @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -46,12 +46,12 @@ export class EmployeeController {
     @UseGuards(AuthGuard('jwt'))
     @Post('search')
     search(@Body() body) {
-      return this.service.search(body);
+        return this.service.search(body);
     }
 
     @UseGuards(AuthGuard('jwt'))
     @Post('eindepartment')
-    eindepartment(@Body() body){
+    eindepartment(@Body() body) {
         return this.service.employeeInDepartment(body.iddepartment, body.pageNum, body.limit)
     }
 }

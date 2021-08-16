@@ -14,7 +14,7 @@ export class UserController {
       return this.service.findAll()
     }
   
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Get(':id')
     get(@Param() params) {
       return this.service.findOne(params.id);
